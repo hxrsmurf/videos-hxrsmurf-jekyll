@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+{% for post in paginator.posts %}
+<div class="article">
+    <div class="well">
+        <h1><a href="{{ site.baseurl}}{{ post.url }}.html">{{ post.title }} - {{ post.date | date: "%b %-d, %Y" }}</a></h1>
+        {% if site.comments and post.comments %}
+            {% if site.disqus != '' %}
+            <p class="author"><a href="{{ site.baseurl }}{{ post.url }}/#disqus_thread" data-disqus-identifier="{{ post.url | slugify }}">Comments</a></p>
+            {% elsif site.isso != '' %}
+            <p class="author"><a href="{{ site.baseurl }}{{ post.url }}{{ site.isso_suffix }}#isso-thread">Comments</a></p>
+            {% endif %}
+        {% endif %}
+        <div class="content">
+			<head>
+					<link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
+
+					<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+					<script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>
+				</head>
+				<body>
+					<video id="my-video" class="video-js" controls preload="auto" width="720" height="480"
+						poster="{{site.mediaurl}}{{post.thumbnail}}" data-setup="{}">
+						<source src="{{site.mediaurl}}{{post.video}}" type="video/mp4">
+						<p class="vjs-no-js">
+							To view this video please enable JavaScript, and consider upgrading to a web browser that
+							<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+						</p>
+					</video>
+					<script src="https://vjs.zencdn.net/7.4.1/video.js"></script>
+				</body>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<div class="pagination">
+  {% if paginator.previous_page %}
+      {% if paginator.previous_page == 1 %}
+        <a class="btn btn-default" href="{{ site.baseurl}}/index.html" class="previous">Newer</a>
+      {% else %}
+        <a class="btn btn-default" href="{{ site.baseurl}}/page{{ paginator.previous_page }}" class="previous">Newer</a>
+      {% endif %}
+  {% endif %}
+  <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  {% if paginator.next_page %}
+    <a class="btn btn-default" href="{{ site.baseurl}}/page{{ paginator.next_page }}" class="next">Older</a>
+  {% endif %}
+</div>
+
+<p>
+{% include advertisement.html %}
+</p>
